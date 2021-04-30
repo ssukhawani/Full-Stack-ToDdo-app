@@ -29,16 +29,9 @@ def loginUser(request):
 
         if userData.check_password(password):
             token, _ = Token.objects.get_or_create(user_id=userData.id)
-            # serializer = UserSerializers(data=userData)
-            # if serializer.is_valid():
-            #     serializer.save()
-            #     output = serializer.data
-            #     output["token"] = token.key
-            #     output = UserSerializers(data=output).data
-            #     return Response(data=output, status=status.HTTP_200_OK)
-            # else:
-            #     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-            return Response(data={"token": token.key}, status=status.HTTP_200_OK)
+            user = UserSerializers(userData)
+
+            return Response(data={'token': token.key, "user":user.data}, status=status.HTTP_200_OK)
         else:
             message = {'detail': "User with this password doesn't exist"}
             return Response(message, status=status.HTTP_401_UNAUTHORIZED)
@@ -50,18 +43,20 @@ def loginUser(request):
 @api_view(['POST'])
 @authentication_classes([TokenAuthentication])
 def registerUser(request):
-    data = request.data
-    User.objects.create(
-        username=data["username"],
-        email = data["email"],
-        first_name = data["first_name"],
-        password = make_password(data["password"])
-    )
-    user=User.objects.last()
-    tokn,_ = Token.objects.get_or_create(user_id=user.id)
-    serializers2=UserSerializers(user).data
-    serializers2['token']=tokn.key
-    return Response(data=serializers2,status=status.HTTP_201_CREATED)
+    try:
+        serializer = UserSerializers(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            user = User.objects.last()
+            tokn, _ = Token.objects.get_or_create(user_id=user.id)
+            serializers2 = UserSerializers(user)
+            return Response(data={"token": tokn.key, "user": serializers2.data}, status=status.HTTP_201_CREATED)
+    except:
+        return Response(data=serializer.errors, status=400)
+        
+        
+    
+
 
 
 
