@@ -4,16 +4,24 @@ from rest_framework.validators import UniqueValidator
 
 
 class UserSerializers(serializers.ModelSerializer):
-    first_name = serializers.CharField(required=False)
-    username = serializers.CharField(required=True, validators=[UniqueValidator(queryset=User.objects.all())])
+    first_name = serializers.SerializerMethodField(required=False)
+    username = serializers.CharField(required=True, validators=[UniqueValidator(
+        queryset=User.objects.all(), message="Username already exist")])
     email = serializers.EmailField(required=True, validators=[UniqueValidator(
-        queryset=User.objects.all())])
+        queryset=User.objects.all(), message="Email already exist")])
     password = serializers.CharField(min_length=6, required=True, write_only=True)
-    # isAdmin = serializers.SerializerMethodField(read_only=True)
+    isAdmin = serializers.SerializerMethodField(read_only=True)
 
     class Meta:
         model = User
-        fields = ['id', 'username', 'email','first_name','password']
+        fields = ['id', 'username', 'email','first_name','password','isAdmin']
+
+    def get_first_name(self, obj):
+        return obj.username
+
+    def get_isAdmin(self, obj):
+        return obj.is_staff
+        
 
 
 

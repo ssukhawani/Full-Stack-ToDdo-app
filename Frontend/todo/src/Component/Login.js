@@ -1,26 +1,25 @@
 import React,{useState, useEffect} from 'react'
-import Footer from './Footer'
-import Header from './Header'
 import {Form, Button, Row, Col} from 'react-bootstrap'
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux'
 import { userlogin } from "../Actions/loginActions";
 import Message from './Message';
-// import axios from 'axios'
+import Loading from "./Loading";
+import FormContainer from './FormContainer';
 
 function Login({history, location}) {
 
     const [login, setLogin] = useState({});
 
     const dispatch = useDispatch()
-    const error = useSelector(state=>state.error)
+    const initState = useSelector(state=>state)
+    const { errorLogin , loading } = initState
 
     useEffect(()=>{
       dispatch({
-        type:"ERROR"
-      })
+        type: "ERROR_REFRESH",
+      });
     },[dispatch])
-
 
     const handelChange= (e)=>{
         setLogin({...login, [e.target.name]:e.target.value})
@@ -32,14 +31,14 @@ function Login({history, location}) {
     }
 
     return (
-      <div>
-        <Header />
+      <FormContainer>
+        {loading && <Loading />}
 
         <Form className="form my-5" onSubmit={handelSubmit}>
           <h1 className="text-center" style={{ fontFamily: "serif" }}>
             Login
           </h1>
-          {error && <Message variant="danger">{error}</Message>}
+          {errorLogin && <Message variant="danger">{errorLogin}</Message>}
           <Form.Group controlId="formBasicUsername">
             <Form.Label>Username</Form.Label>
             <Form.Control
@@ -90,8 +89,7 @@ function Login({history, location}) {
             </Col>
           </Row>
         </Form>
-        <Footer />
-      </div>
+      </FormContainer>
     );
 }
 

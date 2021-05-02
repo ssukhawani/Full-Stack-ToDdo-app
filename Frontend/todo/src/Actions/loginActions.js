@@ -3,6 +3,10 @@ import axios from "axios";
 
 export const userlogin = (login,history) => async (dispatch) => {
   try {
+    dispatch({
+      type: "USER_LOGIN_REQUEST",
+    });
+
     const config = {
       headers: {
         "Content-type": "application/json",
@@ -21,7 +25,7 @@ export const userlogin = (login,history) => async (dispatch) => {
     localStorage.setItem("userWithToken", JSON.stringify(data))
   } catch (error) {
     dispatch({
-      type: "ERROR",
+      type: "USER_LOGIN_ERROR",
       payload: error.response.data.detail,
     });
   }

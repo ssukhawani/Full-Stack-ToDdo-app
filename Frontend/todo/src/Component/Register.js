@@ -1,21 +1,23 @@
 import React, { useState, useEffect } from "react";
-import Footer from "./Footer";
-import Header from "./Header";
 import { Form, Button, Row, Col } from "react-bootstrap";
 import { Link } from 'react-router-dom'
 import { userRegister } from "../Actions/RegisterActions";
 import { useDispatch, useSelector } from "react-redux";
 import  Message from './Message'
+import Loading from "./Loading";
+import FormContainer from "./FormContainer";
 
 function Register({history,location}) {
   const [register, setRegister] = useState({});
+  const [customMsg, setCustomMsg] = useState("");
 
   const dispatch = useDispatch();
-  const error = useSelector((state) => state.error);
+  const initState = useSelector((state) => state);
+  const { errorRegister, loading } = initState;
 
   useEffect(() => {
     dispatch({
-      type: "ERROR",
+      type: "ERROR_REFRESH",
     });
   }, [dispatch]);
 
@@ -25,16 +27,34 @@ function Register({history,location}) {
 
   const handelSubmit = (e) => {
     e.preventDefault();
-    dispatch(userRegister(register,history));
+    if (register.password === register.confirmPassword){
+      setCustomMsg(null)
+      dispatch(userRegister(register, history));
+    }else{
+      setCustomMsg("Passwords dont match")
+    }  
   };
   return (
-    <div>
-      <Header />
+    <FormContainer>
+      {loading && <Loading />}
       <Form className="form my-5" onSubmit={handelSubmit}>
         <h1 className="text-center" style={{ fontFamily: "serif" }}>
           Register
         </h1>
-        {error && <Message variant="danger">{error}</Message>}
+        {errorRegister && errorRegister.email && (
+          <Message variant="danger">{errorRegister.email[0]}</Message>
+        )}
+
+        {errorRegister && errorRegister.username && (
+          <Message variant="danger">{errorRegister.username[0]}</Message>
+        )}
+
+        {errorRegister && errorRegister.password && (
+          <Message variant="danger">
+            {"Ensure password field has at least 6 characters."}
+          </Message>
+        )}
+        {customMsg && <Message variant="danger">{customMsg}</Message>}
         <Form.Group controlId="Username">
           <Form.Label>Username</Form.Label>
           <Form.Control
@@ -95,8 +115,7 @@ function Register({history,location}) {
           </Col>
         </Row>
       </Form>
-      <Footer />
-    </div>
+    </FormContainer>
   );
 }
 

@@ -3,10 +3,6 @@ main {
   min-height: 90vh;
 }
 
-.form{
-  margin: 0 auto;
-  width: 40%
-}
 
 .heartbeat {
   -webkit-animation: heartbeat 1.5s ease-in-out infinite both;

@@ -43,16 +43,20 @@ def loginUser(request):
 @api_view(['POST'])
 @authentication_classes([TokenAuthentication])
 def registerUser(request):
-    try:
-        serializer = UserSerializers(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            user = User.objects.last()
-            tokn, _ = Token.objects.get_or_create(user_id=user.id)
-            serializers2 = UserSerializers(user)
-            return Response(data={"token": tokn.key, "user": serializers2.data}, status=status.HTTP_201_CREATED)
-    except:
+    password = request.data["password"]
+    serializer = UserSerializers(data={**request.data, "password":make_password(password)})
+    if serializer.is_valid():
+        serializer.save()
+        user = User.objects.last()
+        tokn, _ = Token.objects.get_or_create(user_id=user.id)
+        serializers2 = UserSerializers(user)
+        return Response(data={"token": tokn.key, "user": serializers2.data}, status=status.HTTP_201_CREATED)
+    else:
         return Response(data=serializer.errors, status=400)
+        
+        
+            
+   
         
         
     
