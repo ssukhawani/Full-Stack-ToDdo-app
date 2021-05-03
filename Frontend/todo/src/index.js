@@ -12,7 +12,8 @@ import thunk from "redux-thunk";
 const initValue = {
   userInfo : {},
   errorLogin:null,
-  errorRegister:{}
+  errorRegister:{},
+  showProfile:false
 }
 
 const store = createStore(

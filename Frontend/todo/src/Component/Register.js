@@ -37,7 +37,7 @@ function Register({history,location}) {
   return (
     <FormContainer>
       {loading && <Loading />}
-      <Form className="form my-5" onSubmit={handelSubmit}>
+      <Form className="my-5" onSubmit={handelSubmit}>
         <h1 className="text-center" style={{ fontFamily: "serif" }}>
           Register
         </h1>

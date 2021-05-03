@@ -1,4 +1,4 @@
-
+// import { useSelector } from 'react-redux'
 import axios from "axios";
 
 export const userlogin = (login,history) => async (dispatch) => {
@@ -21,7 +21,13 @@ export const userlogin = (login,history) => async (dispatch) => {
       type: "USER_LOGIN",
       payload: data,
     });
+
     history.push("/")
+
+      dispatch({
+        type: "SHOW_PROFILE",
+      });
+    
     localStorage.setItem("userWithToken", JSON.stringify(data))
   } catch (error) {
     dispatch({
@@ -30,3 +36,10 @@ export const userlogin = (login,history) => async (dispatch) => {
     });
   }
 };
+
+export const errorRefresh = () => (dispatch) => {
+  dispatch({
+    type: "ERROR_REFRESH",
+  });
+};
+

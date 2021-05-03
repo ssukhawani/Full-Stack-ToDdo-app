@@ -2,10 +2,11 @@ import React,{useState, useEffect} from 'react'
 import {Form, Button, Row, Col} from 'react-bootstrap'
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux'
-import { userlogin } from "../Actions/loginActions";
+import { errorRefresh, userlogin } from "../Actions/loginActions";
 import Message from './Message';
 import Loading from "./Loading";
 import FormContainer from './FormContainer';
+
 
 function Login({history, location}) {
 
@@ -16,9 +17,7 @@ function Login({history, location}) {
     const { errorLogin , loading } = initState
 
     useEffect(()=>{
-      dispatch({
-        type: "ERROR_REFRESH",
-      });
+      dispatch(errorRefresh())
     },[dispatch])
 
     const handelChange= (e)=>{
@@ -34,7 +33,7 @@ function Login({history, location}) {
       <FormContainer>
         {loading && <Loading />}
 
-        <Form className="form my-5" onSubmit={handelSubmit}>
+        <Form className="my-5" onSubmit={handelSubmit}>
           <h1 className="text-center" style={{ fontFamily: "serif" }}>
             Login
           </h1>

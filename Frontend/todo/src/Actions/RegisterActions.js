@@ -25,7 +25,7 @@ export const userRegister = (register, history) => async (dispatch) => {
     localStorage.setItem("userWithToken", JSON.stringify(data));
 
   } catch (error) {
-    console.log(error.response.data)
+    // console.log(error.response.data)
     dispatch({
       type: "USER_REGISTER_ERROR",
       payload: error.response.data,

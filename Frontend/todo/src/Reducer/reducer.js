@@ -40,8 +40,31 @@ export const reducer = (state={}, action)=>{
       case "ERROR_REFRESH":
         return {
           ...state,
-          errorLogin:null,
-          errorRegister:{}
+          errorLogin: null,
+          errorRegister: {},
+        };
+
+      case "REFRESH_STATE":
+        return {
+          ...state,
+          userInfo: {},
+          errorLogin: null,
+          errorRegister: {},
+        };
+
+      case "SHOW_PROFILE":
+        return {
+          ...state,
+          showProfile: !state.showProfile,
+        };
+
+      case "USER_FROM_LOCAL_STORAGE":
+        const userInfoFromLocal = localStorage.getItem("userWithToken")
+          ? JSON.parse(localStorage.getItem("userWithToken"))
+          : {};
+        return {
+          ...state,
+          userInfo: userInfoFromLocal,
         };
 
       default:
