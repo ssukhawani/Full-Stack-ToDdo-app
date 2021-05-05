@@ -22,13 +22,34 @@ export const userlogin = (login,history) => async (dispatch) => {
       payload: data,
     });
 
+          const config2 = {
+            headers: {
+              Authorization: `Token ${data.token}`,
+              "Content-Type": "application/json",
+            },
+          };
+          
+          const res = await axios.get(
+            "http://127.0.0.1:8000/api/users/todos",
+            config2
+          ).then(res=>res.data)
+
+          dispatch({
+            type: "GET_ALL_TODOS",
+            payload: res,
+          });
+
+          localStorage.setItem("todos", JSON.stringify(res));
+
     history.push("/")
 
       dispatch({
         type: "SHOW_PROFILE",
+        payload: true,
       });
-    
+    localStorage.setItem("showProfile", JSON.stringify(true));
     localStorage.setItem("userWithToken", JSON.stringify(data))
+
   } catch (error) {
     dispatch({
       type: "USER_LOGIN_ERROR",

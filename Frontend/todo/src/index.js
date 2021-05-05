@@ -13,7 +13,8 @@ const initValue = {
   userInfo : {},
   errorLogin:null,
   errorRegister:{},
-  showProfile:false
+  showProfile:false,
+  todos:[]
 }
 
 const store = createStore(

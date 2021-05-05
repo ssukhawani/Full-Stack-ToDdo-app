@@ -8,6 +8,8 @@ from rest_framework.response import Response
 from .serializers import UserSerializers
 from rest_framework.authtoken.models import Token
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
+from .models import Todos
+from .serializers import TodoSerializer
 
 
 @api_view(['GET'])
@@ -54,12 +56,49 @@ def registerUser(request):
     else:
         return Response(data=serializer.errors, status=400)
         
-        
-            
-   
-        
-        
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def fetchAllTodos(request):
+    todos = Todos.objects.filter(user=request.user.id)
+    serializer = TodoSerializer(todos, many=True)
+    return Response(serializer.data)
+
+@api_view(['POST'])
+def createTodos(request):
+    serializer = TodoSerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+    else:
+        return Response(serializer.errors,status=400)
+    return Response(serializer.data, status=201)
+
+
+@api_view(['GET', "PUT", "DELETE"])
+@permission_classes([IsAuthenticated])
+def fetchOneTodo(request, id):
+    if request.method == "GET" :
+        todo = Todos.objects.get(user=request.user.id, id=id)
+        serializer = TodoSerializer(todo)
+        return Response(serializer.data, status=200)
     
+    elif request.method == "PUT":
+        todo = Todos.objects.get(user=request.user.id, id=id)
+        serializer = TodoSerializer(data=request.data, instance=todo)
+        if serializer.is_valid():
+            serializer.save()
+        else:
+            return Response(serializer.errors, status=400)
+        return Response(serializer.data, status=200)
+
+    elif request.method == "DELETE":
+        todo = Todos.objects.get(user=request.user.id, id=id)
+        todo.delete()
+        return Response(data=None, status=204)
+
+
+
+
+
 
 
 

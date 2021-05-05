@@ -5,11 +5,12 @@ import Login from "./Component/Login";
 import Register from "./Component/Register";
 import Header from "./Component/Header";
 import Footer from "./Component/Footer";
-import { useDispatch } from "react-redux";
+import { useDispatch} from "react-redux";
 // import { userFromLocal } from "./Actions/loginActions";
 
 function App() {
   const dispatch = useDispatch();
+  // const state = useSelector(state => state)
 
   useEffect(() => {
     dispatch({

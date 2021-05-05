@@ -27,6 +27,9 @@ function Login({history, location}) {
     const handelSubmit=(e)=>{
         e.preventDefault()
         dispatch(userlogin(login, history));
+        // dispatch({
+        //       type: "SHOW_PROFILE",
+        //     });
     }
 
     return (

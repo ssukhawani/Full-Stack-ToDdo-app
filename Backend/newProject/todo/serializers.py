@@ -1,6 +1,8 @@
 from rest_framework import serializers
 from django.contrib.auth.models import User
 from rest_framework.validators import UniqueValidator
+from .models import Todos
+
 
 
 class UserSerializers(serializers.ModelSerializer):
@@ -17,11 +19,16 @@ class UserSerializers(serializers.ModelSerializer):
         fields = ['id', 'username', 'email','first_name','password','isAdmin']
 
     def get_first_name(self, obj):
-        return obj.username
+        return obj.username.capitalize()
 
     def get_isAdmin(self, obj):
         return obj.is_staff
-        
+
+
+class TodoSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Todos
+        fields = ["title", "desc", "created_at", "updated_at", "completed", "user"]
 
 
 

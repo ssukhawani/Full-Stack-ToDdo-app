@@ -55,16 +55,33 @@ export const reducer = (state={}, action)=>{
       case "SHOW_PROFILE":
         return {
           ...state,
-          showProfile: !state.showProfile,
+          showProfile: action.payload,
+        };
+
+      case "GET_ALL_TODOS":
+        return {
+          ...state,
+          todos:action.payload,
         };
 
       case "USER_FROM_LOCAL_STORAGE":
         const userInfoFromLocal = localStorage.getItem("userWithToken")
           ? JSON.parse(localStorage.getItem("userWithToken"))
           : {};
+
+        const userTodo = localStorage.getItem("todos")
+          ? JSON.parse(localStorage.getItem("todos"))
+          : [];
+
+        const showProfile = localStorage.getItem("showProfile")
+          ? JSON.parse(localStorage.getItem("showProfile"))
+          : false;
+
         return {
           ...state,
           userInfo: userInfoFromLocal,
+          todos: userTodo,
+          showProfile: showProfile,
         };
 
       default:
