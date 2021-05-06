@@ -22,25 +22,6 @@ export const userlogin = (login,history) => async (dispatch) => {
       payload: data,
     });
 
-          const config2 = {
-            headers: {
-              Authorization: `Token ${data.token}`,
-              "Content-Type": "application/json",
-            },
-          };
-          
-          const res = await axios.get(
-            "http://127.0.0.1:8000/api/users/todos",
-            config2
-          ).then(res=>res.data)
-
-          dispatch({
-            type: "GET_ALL_TODOS",
-            payload: res,
-          });
-
-          localStorage.setItem("todos", JSON.stringify(res));
-
     history.push("/")
 
       dispatch({
@@ -63,4 +44,23 @@ export const errorRefresh = () => (dispatch) => {
     type: "ERROR_REFRESH",
   });
 };
+
+export const infoFromLocal=()=>async(dispatch)=>{
+          const userInfoFromLocal = await localStorage.getItem("userWithToken")
+            ? JSON.parse(localStorage.getItem("userWithToken"))
+            : {};
+
+          const userTodo = await localStorage.getItem("todos")
+            ? JSON.parse(localStorage.getItem("todos"))
+            : [];
+
+          const showProfile = await localStorage.getItem("showProfile")
+            ? JSON.parse(localStorage.getItem("showProfile"))
+            : false;
+
+          dispatch({
+            type: "USER_FROM_LOCAL_STORAGE",
+            payload: { userInfoFromLocal, userTodo, showProfile }
+          });
+}
 

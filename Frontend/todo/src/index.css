@@ -1,10 +1,28 @@
+@import url('https://fonts.googleapis.com/css2?family=Macondo&display=swap');
+
+
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body{
+  background: linear-gradient(#cccccc,#cccccc);
+}
 
 main {
   min-height: 90vh;
-  position: relative;
+  /* position: relative; */
 }
 
 
+
+.footer-text{
+  font-size: 18px;
+    font-family: 'Macondo',
+    cursive;
+}
 
 .profile{
   position: absolute;
@@ -18,6 +36,7 @@ main {
   box-shadow:0 2px 2px 2px rgba(0, 0, 0, 0.5);
   border-radius: 20px;
   display: flex;
+  z-index: 10;
 }
 
 
@@ -33,6 +52,12 @@ main {
   right: 8%;
 }
 
+.header{
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    font-family: 'Macondo',
+    cursive;
+}
+
 .form{
   width: 80%;
   height: 80%;
@@ -46,14 +71,139 @@ main {
   /* background-color: turquoise; */
 }
 
+.todo-container {
+  /* background-color: bisque; */
+  width: 90%;
+  margin: 50px auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+  grid-gap: 20px;
+}
+
 .todocard{
-  width: 100px;
-  height: 100px;
-  background-color: aquamarine;
+  width: auto;
+  height: 180px;
+  background-color: white;
+  border-radius: 20px;
+  box-shadow: 0 1px 5px rgb(138, 137, 137);
+  position: relative;
+  cursor: pointer;
+   font-family: 'Macondo',
+   cursive;
+}
+
+.todocard:hover #buttons {
+    visibility: visible;
+} 
+
+p{
+  font-size: 20px;
+  font-weight: 300;
 }
 
 
 
+#buttons {
+   display: grid;
+   grid-template-columns: 1fr 1fr 1fr;
+   position: absolute;
+   width: 90%;
+   bottom: 0;
+   margin-left: 5%;
+   visibility: hidden;
+   /* background-color: aquamarine; */
+}
+#buttons .btns{
+  margin: 0 20%;
+  border-radius: 10%;
+}
+
+.title {
+  text-align: center;
+  width: 75%;
+  margin: 16px auto;
+  padding-top: 16px;
+  /* background-color: burlywood; */
+  border-bottom: 1px solid grey;
+  position: static;
+}
+
+.para {
+
+  width: 75%;
+  margin: 0 auto;
+  margin-top: 5px;
+  /* background-color: blueviolet; */
+
+}
+
+
+/* Add To do  */
+
+form.create-note {
+  position: relative;
+  width: 40%;
+  margin: 10px auto 20px auto;
+  background: #fff;
+  padding: 10px;
+  border-radius: 7px;
+  box-shadow: 0 1px 5px rgb(138, 137, 137);
+   font-family: 'Macondo',
+   cursive;
+   font-size: larger;
+}
+
+form.create-note input,
+form.create-note textarea {
+  width: 100%;
+  height: auto;
+  border: none;
+  padding: 4px 5px;
+  outline: none;
+  font-size: 1.2em;
+  margin: 5px;
+}
+
+form.create-note input {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2)
+}
+
+form.create-note textarea {
+  overflow-y: auto
+}
+
+form .button {
+  position: absolute;
+  left: 45%;
+  bottom: -25px;
+  color: white;
+  box-shadow: 0 1px 5px rgb(138, 137, 137);
+}
+
+form .button:hover {
+  background-color: #ffe227;
+  color: black;
+}
+
+
+
+@media (max-width: 1000px) {
+  form.create-note {
+    width: 80%;
+    padding: 10px;
+  }
+
+  form.create-note input,
+  form.create-note textarea {
+    font-size: 1em;
+  }
+}
+
+@media (max-width: 600px) {
+  form .button {
+    left: 43%;
+  }
+}
 
 
 

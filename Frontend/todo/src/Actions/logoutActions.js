@@ -1,5 +1,5 @@
 export const logoutAction=(history)=>(dispatch)=>{
-    localStorage.clear("userWithToken");
+    localStorage.clear();
     history.push("/login");
     dispatch({
       type: "REFRESH_STATE",

@@ -37,6 +37,7 @@ function Header({history}) {
                   color: "white",
                   fontSize: "40px",
                   marginRight: "30px",
+                  cursor:"pointer"
                 }}
                 onClick={handelProfile}
               />

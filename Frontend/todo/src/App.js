@@ -6,16 +6,14 @@ import Register from "./Component/Register";
 import Header from "./Component/Header";
 import Footer from "./Component/Footer";
 import { useDispatch} from "react-redux";
+import { infoFromLocal } from "./Actions/loginActions";
 // import { userFromLocal } from "./Actions/loginActions";
 
 function App() {
   const dispatch = useDispatch();
-  // const state = useSelector(state => state)
 
   useEffect(() => {
-    dispatch({
-      type: "USER_FROM_LOCAL_STORAGE",
-    });
+    dispatch(infoFromLocal());
   }, [dispatch]);
 
   return (

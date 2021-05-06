@@ -13,6 +13,7 @@ const initValue = {
   userInfo : {},
   errorLogin:null,
   errorRegister:{},
+  todofetchError:null,
   showProfile:false,
   todos:[]
 }

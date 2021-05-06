@@ -58,30 +58,49 @@ export const reducer = (state={}, action)=>{
           showProfile: action.payload,
         };
 
-      case "GET_ALL_TODOS":
+      case "GET_ALL_TODOS_REQUEST":
         return {
           ...state,
-          todos:action.payload,
+          todos: action.payload,
+          loading: true,
+        };
+
+      case "GET_ALL_TODOS_SUCESS":
+        return {
+          ...state,
+          todos: action.payload,
+          loading: false,
+        };
+
+      case "GET_ALL_TODOS_FAILED":
+        return {
+          ...state,
+          todofetchError: action.payload,
+          loading: false,
         };
 
       case "USER_FROM_LOCAL_STORAGE":
-        const userInfoFromLocal = localStorage.getItem("userWithToken")
-          ? JSON.parse(localStorage.getItem("userWithToken"))
-          : {};
+        return {
+          ...state,
+          userInfo: action.payload.userInfoFromLocal,
+          todos: action.payload.userTodo,
+          showProfile: action.payload.showProfile,
+        };
 
-        const userTodo = localStorage.getItem("todos")
-          ? JSON.parse(localStorage.getItem("todos"))
-          : [];
+      case "CREATE_NEW_TODO":
+        return {
+          ...state,
+          todos: [...state.todos, action.payload],
+        };
 
-        const showProfile = localStorage.getItem("showProfile")
-          ? JSON.parse(localStorage.getItem("showProfile"))
-          : false;
+      case "DELETE_TODO":
 
         return {
           ...state,
-          userInfo: userInfoFromLocal,
-          todos: userTodo,
-          showProfile: showProfile,
+          todos: [
+            ...state.todos.slice(0, action.payload),
+            ...state.todos.slice(action.payload + 1),
+          ],
         };
 
       default:
